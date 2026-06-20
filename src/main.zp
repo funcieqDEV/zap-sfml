@@ -9,7 +9,7 @@ fun main() Int {
     window.setFramerateLimit(60);
 
     while window.isOpen(){
-        var event: sfml.Event = sfml.Event;
+        var event = sfml.Event;
 
         while window.pollEvent(ref event){
             if event.type == sfml.EVENT_CLOSED {
