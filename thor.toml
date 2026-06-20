@@ -1,0 +1,11 @@
+name         = "zap-sfml"
+version      = "0.1.0"
+out          = "build/"
+entry        = "src/main.zp"
+flags        = "build/sfml.o -lsfml-graphics -lsfml-window -lsfml-system -lstdc++"
+
+# compiler  = "zapc"   # optional: override the compiler executable
+# optimization = "O0"  # optional: O0..O3
+
+[imports]
+"@sfml" = "./src/lib/sfml.zp"

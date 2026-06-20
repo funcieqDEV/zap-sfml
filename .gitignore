@@ -1,0 +1,6 @@
+build/
+zap/
+.git/
+.git-local/
+.agents/
+.codex/

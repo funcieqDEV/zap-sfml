@@ -1,0 +1,115 @@
+pub const EVENT_CLOSED: Int32 = 0;
+pub const EVENT_KEY_PRESSED: Int32 = 1;
+pub const EVENT_KEY_RELEASED: Int32 = 2;
+pub const EVENT_MOUSE_MOVED: Int32 = 3;
+pub const EVENT_MOUSE_BUTTON_PRESSED: Int32 = 4;
+pub const EVENT_MOUSE_BUTTON_RELEASED: Int32 = 5;
+pub const EVENT_COUNT: Int32 = 6;
+
+@repr("C")
+pub struct Event {
+    type: Int32,
+    keyCode: Int32,
+    mouseX: Int32,
+    mouseY: Int32,
+    mouseButton: Int32,
+}
+
+@repr("C")
+pub struct Time {
+    microseconds: Int64,
+}
+
+pub ext fun sw_window_create(width: UInt32, height: UInt32, title: *Char) *Void;
+pub ext fun sw_window_destroy(w: *Void) Void;
+pub ext fun sw_window_is_open(w: *Void) Bool;
+pub ext fun sw_window_close(w: *Void) Void;
+pub ext fun sw_window_display(w: *Void) Void;
+pub ext fun sw_window_clear(w: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;
+pub ext fun sw_window_set_framerate_limit(w: *Void, limit: UInt32) Void;
+pub ext fun sw_window_poll_event(w: *Void, outEvent: *Event) Bool;
+
+pub ext fun sw_time_now() Time;
+pub ext fun sw_time_delta_seconds(seconds: Float64) Time;
+pub ext fun sw_sleep(t: Time) Void;
+
+pub class Window {
+    priv handle: *Void;
+
+    pub fun init(width: UInt32, height: UInt32, title: String) {
+        unsafe {
+            self.handle = sw_window_create(width, height, title as *Char);
+        }
+    }
+
+    fun deinit() {
+        self.destroy();
+    }
+
+    pub fun nativeHandle() *Void {
+        return self.handle;
+    }
+
+    pub fun isOpen() Bool {
+        if self.handle == null {
+            return false;
+        }
+        unsafe {
+            return sw_window_is_open(self.handle);
+        }
+    }
+
+    pub fun close() {
+        if self.handle != null {
+            unsafe {
+                sw_window_close(self.handle);
+            }
+        }
+    }
+
+    pub fun display() {
+        if self.handle != null {
+            unsafe {
+                sw_window_display(self.handle);
+            }
+        }
+    }
+
+    pub fun clear(r: UInt8, g: UInt8, b: UInt8) {
+        self.clearRgba(r, g, b, 255);
+    }
+
+    pub fun clearRgba(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
+        if self.handle != null {
+            unsafe {
+                sw_window_clear(self.handle, r, g, b, a);
+            }
+        }
+    }
+
+    pub fun setFramerateLimit(limit: UInt32) {
+        if self.handle != null {
+            unsafe {
+                sw_window_set_framerate_limit(self.handle, limit);
+            }
+        }
+    }
+
+    pub fun pollEvent(ref outEvent: Event) Bool {
+        if self.handle == null {
+            return false;
+        }
+        unsafe {
+            return sw_window_poll_event(self.handle, &outEvent);
+        }
+    }
+
+    pub fun destroy() {
+        if self.handle != null {
+            unsafe {
+                sw_window_destroy(self.handle);
+            }
+            self.handle = null;
+        }
+    }
+}
