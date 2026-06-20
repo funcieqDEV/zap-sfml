@@ -10,6 +10,10 @@ fun main() Int {
     box.setPosition(340.0, 255.0);
     box.setFillColor(230, 80, 70);
 
+    var circle = new sfml.Circle(50);
+    circle.setPosition(50, 100);
+    circle.setFillColor(0,255,0);
+
     while window.isOpen(){
         var event: sfml.Event = sfml.Event {
             type: 0,
@@ -42,7 +46,8 @@ fun main() Int {
         }
 
         window.clear(30,30,40);
-        window.draw(box);
+        window.drawRect(box);
+        window.drawCircle(circle);
         window.display();
     }
 

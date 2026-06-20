@@ -6,6 +6,7 @@ pub ext fun sw_window_display(w: *Void) Void;
 pub ext fun sw_window_clear(w: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;
 pub ext fun sw_window_set_framerate_limit(w: *Void, limit: UInt32) Void;
 pub ext fun sw_window_draw_rectangle(w: *Void, rect: *Void) Void;
+pub ext fun sw_window_draw_circle(w: *Void, circ: *Void) Void;
 pub ext fun sw_window_poll_event(w: *Void, outEvent: *Void) Bool;
 
 pub ext fun sw_keyboard_is_key_pressed(key: Int32) Bool;
@@ -16,3 +17,10 @@ pub ext fun sw_rectangle_set_size(rect: *Void, width: Float32, height: Float32) 
 pub ext fun sw_rectangle_set_position(rect: *Void, x: Float32, y: Float32) Void;
 pub ext fun sw_rectangle_move(rect: *Void, dx: Float32, dy: Float32) Void;
 pub ext fun sw_rectangle_set_fill_color(rect: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;
+
+pub ext fun sw_circle_create(radius: Float32) *Void;
+pub ext fun sw_circle_destroy(circ: *Void) Void;
+pub ext fun sw_circle_set_size(circ: *Void, width: Float32, height: Float32) Void;
+pub ext fun sw_circle_set_position(circ: *Void, x: Float32, y: Float32) Void;
+pub ext fun sw_circle_move(circ: *Void, dx: Float32, dy: Float32) Void;
+pub ext fun sw_circle_set_fill_color(circ: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;

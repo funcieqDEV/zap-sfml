@@ -1,5 +1,8 @@
 #include "sfml.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <cstdint>
 
 namespace {
 sf::Clock startClock;
@@ -13,6 +16,10 @@ struct SwWindow {
 
 struct SwRectangle {
     sf::RectangleShape* shape;
+};
+
+struct SwCircle {
+    sf::CircleShape* shape;
 };
 
 SwWindow* sw_window_create(unsigned int w, unsigned int h, const char* title) {
@@ -49,6 +56,10 @@ void sw_window_set_framerate_limit(SwWindow* cw, unsigned int limit) {
 
 void sw_window_draw_rectangle(SwWindow* cw, const SwRectangle* rect) {
     if (cw && rect && rect->shape) cw->win->draw(*rect->shape);
+}
+
+void sw_window_draw_circle(SwWindow* cw, const SwCircle* circ){
+    if (cw && circ && circ->shape) cw->win->draw(*circ->shape);
 }
 
 // Events
@@ -116,7 +127,7 @@ bool sw_keyboard_is_key_pressed(int32_t key) {
     if (key < 0 || key >= sf::Keyboard::KeyCount) return false;
     return sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key));
 }
-
+// shapes
 SwRectangle* sw_rectangle_create(float width, float height) {
     SwRectangle* rect = new SwRectangle;
     rect->shape = new sf::RectangleShape(sf::Vector2f(width, height));
@@ -143,6 +154,34 @@ void sw_rectangle_move(SwRectangle* rect, float dx, float dy) {
 
 void sw_rectangle_set_fill_color(SwRectangle* rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
     if (rect && rect->shape) rect->shape->setFillColor(sf::Color(r, g, b, a));
+}
+
+SwCircle* sw_circle_create(float radius){
+    SwCircle* circ = new SwCircle;
+    circ->shape = new sf::CircleShape(radius);
+    return  circ;
+}
+
+void sw_circle_destroy(SwCircle* circ){
+    if(!circ) return;
+    delete circ->shape;
+    delete circ;
+}
+
+void sw_circle_set_size(SwCircle* circ, float radius){
+    if (circ && circ->shape) circ->shape->setRadius(radius);
+}
+
+void sw_circle_set_position(SwCircle* circ, float x, float y){
+    if(circ && circ->shape) circ->shape->setPosition(x,y);
+}
+
+void sw_circle_move(SwCircle* circ, float dx, float dy){
+    if(circ && circ->shape) circ->shape->move(dx,dy);
+}
+
+void sw_circle_set_fill_color(SwCircle* circ, uint8_t r, uint8_t g, uint8_t b, uint8_t a){
+    if(circ && circ->shape) circ->shape->setFillColor(sf::Color(r,g,b,a));
 }
 
 } // extern "C"

@@ -3,3 +3,4 @@ pub import "sfml/keyboard";
 pub import "sfml/time";
 pub import "sfml/window";
 pub import "sfml/graphics/rectangle";
+pub import "sfml/graphics/circle";

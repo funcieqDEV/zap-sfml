@@ -1,6 +1,7 @@
 import "ffi.zp" as ffi;
 import "events.zp" { Event };
 import "graphics/rectangle.zp" { Rectangle };
+import "graphics/circle.zp" { Circle };
 
 pub class Window {
     priv handle: *Void;
@@ -73,10 +74,18 @@ pub class Window {
         }
     }
 
-    pub fun draw(rect: Rectangle) {
+    pub fun drawRect(rect: Rectangle) {
         if self.handle != null {
             unsafe {
                 ffi.sw_window_draw_rectangle(self.handle, rect.nativeHandle());
+            }
+        }
+    }
+    
+    pub fun drawCircle(circ: Circle) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_draw_circle(self.handle, circ.nativeHandle());
             }
         }
     }

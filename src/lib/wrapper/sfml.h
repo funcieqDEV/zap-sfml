@@ -9,6 +9,7 @@ extern "C" {
 
 typedef struct SwWindow SwWindow;
 typedef struct SwRectangle SwRectangle;
+typedef struct SwCircle SwCircle;
 
 SwWindow* sw_window_create(unsigned int width, unsigned int height, const char* title);
 void sw_window_destroy(SwWindow* w);
@@ -18,6 +19,7 @@ void sw_window_display(SwWindow* w);
 void sw_window_clear(SwWindow* w, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 void sw_window_set_framerate_limit(SwWindow* w, unsigned int limit);
 void sw_window_draw_rectangle(SwWindow* w, const SwRectangle* rect);
+void sw_window_draw_circle(SwWindow* cw, const SwCircle* circ);
 
 typedef enum {
     SW_EVENT_CLOSED = 0,
@@ -56,6 +58,14 @@ void sw_rectangle_set_size(SwRectangle* rect, float width, float height);
 void sw_rectangle_set_position(SwRectangle* rect, float x, float y);
 void sw_rectangle_move(SwRectangle* rect, float dx, float dy);
 void sw_rectangle_set_fill_color(SwRectangle* rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+
+SwCircle* sw_circle_create(float radius);
+void sw_circle_destroy(SwCircle* rect);
+void sw_circle_set_size(SwCircle* circ, float radius);
+void sw_circle_set_position(SwCircle* circ, float x, float y);
+void sw_circle_move(SwCircle* rect, float dx, float dy);
+void sw_circle_set_fill_color(SwCircle* circ, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+
 
 #ifdef __cplusplus
 }
