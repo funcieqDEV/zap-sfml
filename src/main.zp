@@ -25,6 +25,22 @@ fun main() Int {
             }
         }
 
+        if sfml.isKeyPressed(sfml.KEY_ESCAPE) {
+            window.close();
+        }
+        if sfml.isKeyPressed(sfml.KEY_LEFT) || sfml.isKeyPressed(sfml.KEY_A) {
+            box.move(-4.0, 0.0);
+        }
+        if sfml.isKeyPressed(sfml.KEY_RIGHT) || sfml.isKeyPressed(sfml.KEY_D) {
+            box.move(4.0, 0.0);
+        }
+        if sfml.isKeyPressed(sfml.KEY_UP) || sfml.isKeyPressed(sfml.KEY_W) {
+            box.move(0.0, -4.0);
+        }
+        if sfml.isKeyPressed(sfml.KEY_DOWN) || sfml.isKeyPressed(sfml.KEY_S) {
+            box.move(0.0, 4.0);
+        }
+
         window.clear(30,30,40);
         window.draw(box);
         window.display();

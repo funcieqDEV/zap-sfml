@@ -48,6 +48,8 @@ SwTime sw_time_now(void);
 SwTime sw_time_delta_seconds(double seconds);
 void sw_sleep(SwTime t);
 
+bool sw_keyboard_is_key_pressed(int32_t key);
+
 SwRectangle* sw_rectangle_create(float width, float height);
 void sw_rectangle_destroy(SwRectangle* rect);
 void sw_rectangle_set_size(SwRectangle* rect, float width, float height);

@@ -1,0 +1,16 @@
+pub const EVENT_CLOSED: Int32 = 0;
+pub const EVENT_KEY_PRESSED: Int32 = 1;
+pub const EVENT_KEY_RELEASED: Int32 = 2;
+pub const EVENT_MOUSE_MOVED: Int32 = 3;
+pub const EVENT_MOUSE_BUTTON_PRESSED: Int32 = 4;
+pub const EVENT_MOUSE_BUTTON_RELEASED: Int32 = 5;
+pub const EVENT_COUNT: Int32 = 6;
+
+@repr("C")
+pub struct Event {
+    type: Int32,
+    keyCode: Int32,
+    mouseX: Int32,
+    mouseY: Int32,
+    mouseButton: Int32,
+}

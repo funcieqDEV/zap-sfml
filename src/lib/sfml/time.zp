@@ -1,0 +1,26 @@
+@repr("C")
+pub struct Time {
+    microseconds: Int64,
+}
+
+ext fun sw_time_now() Time;
+ext fun sw_time_delta_seconds(seconds: Float64) Time;
+ext fun sw_sleep(t: Time) Void;
+
+pub fun now() Time {
+    unsafe {
+        return sw_time_now();
+    }
+}
+
+pub fun seconds(value: Float64) Time {
+    unsafe {
+        return sw_time_delta_seconds(value);
+    }
+}
+
+pub fun sleep(time: Time) {
+    unsafe {
+        sw_sleep(time);
+    }
+}

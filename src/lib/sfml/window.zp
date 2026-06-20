@@ -1,0 +1,92 @@
+import "ffi.zp" as ffi;
+import "events.zp" { Event };
+import "graphics/rectangle.zp" { Rectangle };
+
+pub class Window {
+    priv handle: *Void;
+
+    pub fun init(width: UInt32, height: UInt32, title: String) {
+        unsafe {
+            self.handle = ffi.sw_window_create(width, height, title as *Char);
+        }
+    }
+
+    fun deinit() {
+        self.destroy();
+    }
+
+    pub fun nativeHandle() *Void {
+        return self.handle;
+    }
+
+    pub fun isOpen() Bool {
+        if self.handle == null {
+            return false;
+        }
+        unsafe {
+            return ffi.sw_window_is_open(self.handle);
+        }
+    }
+
+    pub fun close() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_close(self.handle);
+            }
+        }
+    }
+
+    pub fun display() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_display(self.handle);
+            }
+        }
+    }
+
+    pub fun clear(r: UInt8, g: UInt8, b: UInt8) {
+        self.clearRgba(r, g, b, 255);
+    }
+
+    pub fun clearRgba(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_clear(self.handle, r, g, b, a);
+            }
+        }
+    }
+
+    pub fun setFramerateLimit(limit: UInt32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_set_framerate_limit(self.handle, limit);
+            }
+        }
+    }
+
+    pub fun pollEvent(ref outEvent: Event) Bool {
+        if self.handle == null {
+            return false;
+        }
+        unsafe {
+            return ffi.sw_window_poll_event(self.handle, &outEvent as *Void);
+        }
+    }
+
+    pub fun draw(rect: Rectangle) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_draw_rectangle(self.handle, rect.nativeHandle());
+            }
+        }
+    }
+
+    pub fun destroy() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_destroy(self.handle);
+            }
+            self.handle = null;
+        }
+    }
+}

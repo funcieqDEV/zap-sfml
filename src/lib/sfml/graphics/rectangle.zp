@@ -1,0 +1,64 @@
+import "../ffi.zp" as ffi;
+
+pub class Rectangle {
+    priv handle: *Void;
+
+    pub fun init(width: Float32, height: Float32) {
+        unsafe {
+            self.handle = ffi.sw_rectangle_create(width, height);
+        }
+    }
+
+    fun deinit() {
+        self.destroy();
+    }
+
+    pub fun nativeHandle() *Void {
+        return self.handle;
+    }
+
+    pub fun setSize(width: Float32, height: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_rectangle_set_size(self.handle, width, height);
+            }
+        }
+    }
+
+    pub fun setPosition(x: Float32, y: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_rectangle_set_position(self.handle, x, y);
+            }
+        }
+    }
+
+    pub fun move(dx: Float32, dy: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_rectangle_move(self.handle, dx, dy);
+            }
+        }
+    }
+
+    pub fun setFillColor(r: UInt8, g: UInt8, b: UInt8) {
+        self.setFillColorRgba(r, g, b, 255);
+    }
+
+    pub fun setFillColorRgba(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_rectangle_set_fill_color(self.handle, r, g, b, a);
+            }
+        }
+    }
+
+    pub fun destroy() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_rectangle_destroy(self.handle);
+            }
+            self.handle = null;
+        }
+    }
+}

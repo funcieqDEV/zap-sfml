@@ -112,6 +112,11 @@ void sw_sleep(SwTime t) {
     sf::sleep(sf::microseconds(t.microseconds));
 }
 
+bool sw_keyboard_is_key_pressed(int32_t key) {
+    if (key < 0 || key >= sf::Keyboard::KeyCount) return false;
+    return sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(key));
+}
+
 SwRectangle* sw_rectangle_create(float width, float height) {
     SwRectangle* rect = new SwRectangle;
     rect->shape = new sf::RectangleShape(sf::Vector2f(width, height));

@@ -1,0 +1,18 @@
+import "ffi.zp" as ffi;
+
+pub const KEY_A: Int32 = 0;
+pub const KEY_D: Int32 = 3;
+pub const KEY_S: Int32 = 18;
+pub const KEY_W: Int32 = 22;
+pub const KEY_ESCAPE: Int32 = 36;
+pub const KEY_SPACE: Int32 = 57;
+pub const KEY_LEFT: Int32 = 71;
+pub const KEY_RIGHT: Int32 = 72;
+pub const KEY_UP: Int32 = 73;
+pub const KEY_DOWN: Int32 = 74;
+
+pub fun isKeyPressed(key: Int32) Bool {
+    unsafe {
+        return ffi.sw_keyboard_is_key_pressed(key);
+    }
+}
