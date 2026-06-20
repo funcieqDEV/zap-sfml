@@ -3,13 +3,21 @@ import "std/io";
 import "lib/sfml" as sfml;
 
 fun main() Int {
-    io.println("Zap sfml bindings");
-    io.println("I hope I will finish this quickly I have never done good bindings");
     var window = new sfml.Window(800, 600, "test");
     window.setFramerateLimit(60);
 
+    var box = new sfml.Rectangle(120.0, 90.0);
+    box.setPosition(340.0, 255.0);
+    box.setFillColor(230, 80, 70);
+
     while window.isOpen(){
-        var event = sfml.Event;
+        var event: sfml.Event = sfml.Event {
+            type: 0,
+            keyCode: 0,
+            mouseX: 0,
+            mouseY: 0,
+            mouseButton: 0
+        }; //TODO: make default initializer
 
         while window.pollEvent(ref event){
             if event.type == sfml.EVENT_CLOSED {
@@ -18,9 +26,11 @@ fun main() Int {
         }
 
         window.clear(30,30,40);
+        window.draw(box);
         window.display();
     }
 
+    box.destroy();
     window.destroy();
     return 0;
 }

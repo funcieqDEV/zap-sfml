@@ -8,6 +8,7 @@ extern "C" {
 #endif
 
 typedef struct SwWindow SwWindow;
+typedef struct SwRectangle SwRectangle;
 
 SwWindow* sw_window_create(unsigned int width, unsigned int height, const char* title);
 void sw_window_destroy(SwWindow* w);
@@ -16,6 +17,7 @@ void sw_window_close(SwWindow* w);
 void sw_window_display(SwWindow* w);
 void sw_window_clear(SwWindow* w, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 void sw_window_set_framerate_limit(SwWindow* w, unsigned int limit);
+void sw_window_draw_rectangle(SwWindow* w, const SwRectangle* rect);
 
 typedef enum {
     SW_EVENT_CLOSED = 0,
@@ -45,6 +47,13 @@ typedef struct {
 SwTime sw_time_now(void);
 SwTime sw_time_delta_seconds(double seconds);
 void sw_sleep(SwTime t);
+
+SwRectangle* sw_rectangle_create(float width, float height);
+void sw_rectangle_destroy(SwRectangle* rect);
+void sw_rectangle_set_size(SwRectangle* rect, float width, float height);
+void sw_rectangle_set_position(SwRectangle* rect, float x, float y);
+void sw_rectangle_move(SwRectangle* rect, float dx, float dy);
+void sw_rectangle_set_fill_color(SwRectangle* rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 #ifdef __cplusplus
 }

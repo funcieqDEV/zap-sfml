@@ -11,6 +11,10 @@ struct SwWindow {
     sf::RenderWindow* win;
 };
 
+struct SwRectangle {
+    sf::RectangleShape* shape;
+};
+
 SwWindow* sw_window_create(unsigned int w, unsigned int h, const char* title) {
     SwWindow* cw = new SwWindow;
     cw->win = new sf::RenderWindow(sf::VideoMode(w, h), title ? title : "");
@@ -41,6 +45,10 @@ void sw_window_clear(SwWindow* cw, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
 
 void sw_window_set_framerate_limit(SwWindow* cw, unsigned int limit) {
     if (cw) cw->win->setFramerateLimit(limit);
+}
+
+void sw_window_draw_rectangle(SwWindow* cw, const SwRectangle* rect) {
+    if (cw && rect && rect->shape) cw->win->draw(*rect->shape);
 }
 
 // Events
@@ -102,6 +110,34 @@ SwTime sw_time_delta_seconds(double s) {
 
 void sw_sleep(SwTime t) {
     sf::sleep(sf::microseconds(t.microseconds));
+}
+
+SwRectangle* sw_rectangle_create(float width, float height) {
+    SwRectangle* rect = new SwRectangle;
+    rect->shape = new sf::RectangleShape(sf::Vector2f(width, height));
+    return rect;
+}
+
+void sw_rectangle_destroy(SwRectangle* rect) {
+    if (!rect) return;
+    delete rect->shape;
+    delete rect;
+}
+
+void sw_rectangle_set_size(SwRectangle* rect, float width, float height) {
+    if (rect && rect->shape) rect->shape->setSize(sf::Vector2f(width, height));
+}
+
+void sw_rectangle_set_position(SwRectangle* rect, float x, float y) {
+    if (rect && rect->shape) rect->shape->setPosition(x, y);
+}
+
+void sw_rectangle_move(SwRectangle* rect, float dx, float dy) {
+    if (rect && rect->shape) rect->shape->move(dx, dy);
+}
+
+void sw_rectangle_set_fill_color(SwRectangle* rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+    if (rect && rect->shape) rect->shape->setFillColor(sf::Color(r, g, b, a));
 }
 
 } // extern "C"
