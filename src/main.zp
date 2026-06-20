@@ -30,7 +30,5 @@ fun main() Int {
         window.display();
     }
 
-    box.destroy();
-    window.destroy();
     return 0;
 }
