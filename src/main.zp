@@ -1,27 +1,26 @@
 import "std/io";
-//import "@sfml/sfml";
 import "lib/sfml" as sfml;
 
 fun main() Int {
-    var window = new sfml.Window(800, 600, "test");
+    var window = new sfml.Window(800, 600, "Sprite Test");
     window.setFramerateLimit(60);
+
+    var texture = new sfml.Texture();
+    if !texture.loadFromFile("test.png") {
+        io.println("Failed to load texture!");
+        return 1;
+    }
+
+    var sprite = new sfml.Sprite(texture);
+    sprite.setPosition(200.0, 150.0);
+    sprite.setScale(2.0, 2.0);
 
     var box = new sfml.Rectangle(120.0, 90.0);
     box.setPosition(340.0, 255.0);
     box.setFillColor(230, 80, 70);
 
-    var circle = new sfml.Circle(50);
-    circle.setPosition(50, 100);
-    circle.setFillColor(0,255,0);
-
     while window.isOpen(){
-        var event: sfml.Event = sfml.Event {
-            type: 0,
-            keyCode: 0,
-            mouseX: 0,
-            mouseY: 0,
-            mouseButton: 0
-        }; //TODO: make default initializer
+        var event: sfml.Event = sfml.Event;
 
         while window.pollEvent(ref event){
             if event.type == sfml.EVENT_CLOSED {
@@ -32,22 +31,10 @@ fun main() Int {
         if sfml.isKeyPressed(sfml.Key.Escape) {
             window.close();
         }
-        if sfml.isKeyPressed(sfml.Key.Left) || sfml.isKeyPressed(sfml.Key.A) {
-            box.move(-4.0, 0.0);
-        }
-        if sfml.isKeyPressed(sfml.Key.Right) || sfml.isKeyPressed(sfml.Key.D) {
-            box.move(4.0, 0.0);
-        }
-        if sfml.isKeyPressed(sfml.Key.Up) || sfml.isKeyPressed(sfml.Key.W) {
-            box.move(0.0, -4.0);
-        }
-        if sfml.isKeyPressed(sfml.Key.Down) || sfml.isKeyPressed(sfml.Key.S) {
-            box.move(0.0, 4.0);
-        }
 
         window.clear(30,30,40);
+        window.drawSprite(sprite);
         window.drawRect(box);
-        window.drawCircle(circle);
         window.display();
     }
 

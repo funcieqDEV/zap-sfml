@@ -4,3 +4,5 @@ pub import "sfml/time";
 pub import "sfml/window";
 pub import "sfml/graphics/rectangle";
 pub import "sfml/graphics/circle";
+pub import "sfml/graphics/texture";
+pub import "sfml/graphics/sprite";

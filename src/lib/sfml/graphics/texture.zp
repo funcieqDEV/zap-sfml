@@ -1,0 +1,45 @@
+import "../ffi.zp" as ffi;
+
+pub class Texture {
+    priv handle: *Void;
+
+    pub fun init() {
+        unsafe {
+            self.handle = ffi.sw_texture_create();
+        }
+    }
+
+    fun deinit() {
+        self.destroy();
+    }
+
+    pub fun nativeHandle() *Void {
+        return self.handle;
+    }
+
+    pub fun loadFromFile(filepath: String) Bool {
+        if self.handle == null {
+            return false;
+        }
+        unsafe {
+            return ffi.sw_texture_load_from_file(self.handle, filepath);
+        }
+    }
+
+    pub fun getSize(ref w: UInt32, ref h: UInt32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_texture_get_size(self.handle, &w, &h);
+            }
+        }
+    }
+
+    pub fun destroy() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_texture_destroy(self.handle);
+            }
+            self.handle = null;
+        }
+    }
+}

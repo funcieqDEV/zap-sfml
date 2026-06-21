@@ -1,0 +1,81 @@
+import "../ffi.zp" as ffi;
+import "texture.zp" { Texture };
+
+pub class Sprite {
+    priv handle: *Void;
+
+    pub fun init(tex: Texture) {
+        unsafe {
+            self.handle = ffi.sw_sprite_create(tex.nativeHandle());
+        }
+    }
+
+    fun deinit() {
+        self.destroy();
+    }
+
+    pub fun nativeHandle() *Void {
+        return self.handle;
+    }
+
+    pub fun setTexture(tex: Texture) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_set_texture(self.handle, tex.nativeHandle());
+            }
+        }
+    }
+
+    pub fun setPosition(x: Float32, y: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_set_position(self.handle, x, y);
+            }
+        }
+    }
+
+    pub fun move(dx: Float32, dy: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_move(self.handle, dx, dy);
+            }
+        }
+    }
+
+    pub fun setScale(sx: Float32, sy: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_set_scale(self.handle, sx, sy);
+            }
+        }
+    }
+
+    pub fun setRotation(angle: Float32) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_set_rotation(self.handle, angle);
+            }
+        }
+    }
+
+    pub fun setColor(r: UInt8, g: UInt8, b: UInt8) {
+        self.setColorRgba(r, g, b, 255);
+    }
+
+    pub fun setColorRgba(r: UInt8, g: UInt8, b: UInt8, a: UInt8) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_set_color(self.handle, r, g, b, a);
+            }
+        }
+    }
+
+    pub fun destroy() {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_sprite_destroy(self.handle);
+            }
+            self.handle = null;
+        }
+    }
+}

@@ -7,6 +7,7 @@ pub ext fun sw_window_clear(w: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Vo
 pub ext fun sw_window_set_framerate_limit(w: *Void, limit: UInt32) Void;
 pub ext fun sw_window_draw_rectangle(w: *Void, rect: *Void) Void;
 pub ext fun sw_window_draw_circle(w: *Void, circ: *Void) Void;
+pub ext fun sw_window_draw_sprite(w: *Void, sprite: *Void) Void;
 pub ext fun sw_window_poll_event(w: *Void, outEvent: *Void) Bool;
 
 pub ext fun sw_keyboard_is_key_pressed(key: Int32) Bool;
@@ -24,3 +25,17 @@ pub ext fun sw_circle_set_size(circ: *Void, width: Float32, height: Float32) Voi
 pub ext fun sw_circle_set_position(circ: *Void, x: Float32, y: Float32) Void;
 pub ext fun sw_circle_move(circ: *Void, dx: Float32, dy: Float32) Void;
 pub ext fun sw_circle_set_fill_color(circ: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;
+
+pub ext fun sw_texture_create() *Void;
+pub ext fun sw_texture_destroy(tex: *Void) Void;
+pub ext fun sw_texture_load_from_file(tex: *Void, fname: String) Bool;
+pub ext fun sw_texture_get_size(tex: *Void, w: *UInt32, h: *UInt32) Void;
+
+pub ext fun sw_sprite_create(tex: *Void) *Void;
+pub ext fun sw_sprite_destroy(spr: *Void) Void;
+pub ext fun sw_sprite_set_texture(spr: *Void, tex: *Void) Void;
+pub ext fun sw_sprite_set_position(spr: *Void, x: Float32, y: Float32) Void;
+pub ext fun sw_sprite_move(spr: *Void, dx: Float32, dy: Float32) Void;
+pub ext fun sw_sprite_set_scale(spr: *Void, sx: Float32, sy: Float32) Void;
+pub ext fun sw_sprite_set_rotation(spr: *Void, angle: Float32) Void;
+pub ext fun sw_sprite_set_color(spr: *Void, r: UInt8, g: UInt8, b: UInt8, a: UInt8) Void;

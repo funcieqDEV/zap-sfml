@@ -22,6 +22,14 @@ struct SwCircle {
     sf::CircleShape* shape;
 };
 
+struct SwTexture {
+    sf::Texture* tex;
+};
+
+struct SwSprite {
+    sf::Sprite* sprite;
+};
+
 SwWindow* sw_window_create(unsigned int w, unsigned int h, const char* title) {
     SwWindow* cw = new SwWindow;
     cw->win = new sf::RenderWindow(sf::VideoMode(w, h), title ? title : "");
@@ -60,6 +68,10 @@ void sw_window_draw_rectangle(SwWindow* cw, const SwRectangle* rect) {
 
 void sw_window_draw_circle(SwWindow* cw, const SwCircle* circ){
     if (cw && circ && circ->shape) cw->win->draw(*circ->shape);
+}
+
+void sw_window_draw_sprite(SwWindow* cw, const SwSprite* spr) {
+    if (cw && spr && spr->sprite) cw->win->draw(*spr->sprite);
 }
 
 // Events
@@ -182,6 +194,71 @@ void sw_circle_move(SwCircle* circ, float dx, float dy){
 
 void sw_circle_set_fill_color(SwCircle* circ, uint8_t r, uint8_t g, uint8_t b, uint8_t a){
     if(circ && circ->shape) circ->shape->setFillColor(sf::Color(r,g,b,a));
+}
+
+// Texture
+SwTexture* sw_texture_create(void) {
+    SwTexture* tex = new SwTexture;
+    tex->tex = new sf::Texture();
+    return tex;
+}
+
+void sw_texture_destroy(SwTexture* tex) {
+    if (!tex) return;
+    delete tex->tex;
+    delete tex;
+}
+
+bool sw_texture_load_from_file(SwTexture* tex, const char* path) {
+    if (!tex || !tex->tex || !path) return false;
+    return tex->tex->loadFromFile(path);
+}
+
+void sw_texture_get_size(const SwTexture* tex, unsigned int* w, unsigned int* h) {
+    if (!tex || !tex->tex) return;
+    auto size = tex->tex->getSize();
+    if (w) *w = size.x;
+    if (h) *h = size.y;
+}
+
+// Sprite
+SwSprite* sw_sprite_create(const SwTexture* tex) {
+    if (!tex || !tex->tex) return nullptr;
+    SwSprite* spr = new SwSprite;
+    spr->sprite = new sf::Sprite(*tex->tex);
+    return spr;
+}
+
+void sw_sprite_destroy(SwSprite* spr) {
+    if (!spr) return;
+    delete spr->sprite;
+    delete spr;
+}
+
+void sw_sprite_set_texture(SwSprite* spr, const SwTexture* tex) {
+    if (spr && spr->sprite && tex && tex->tex) {
+        spr->sprite->setTexture(*tex->tex);
+    }
+}
+
+void sw_sprite_set_position(SwSprite* spr, float x, float y) {
+    if (spr && spr->sprite) spr->sprite->setPosition(x, y);
+}
+
+void sw_sprite_move(SwSprite* spr, float dx, float dy) {
+    if (spr && spr->sprite) spr->sprite->move(dx, dy);
+}
+
+void sw_sprite_set_scale(SwSprite* spr, float sx, float sy) {
+    if (spr && spr->sprite) spr->sprite->setScale(sx, sy);
+}
+
+void sw_sprite_set_rotation(SwSprite* spr, float angle) {
+    if (spr && spr->sprite) spr->sprite->setRotation(angle);
+}
+
+void sw_sprite_set_color(SwSprite* spr, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+    if (spr && spr->sprite) spr->sprite->setColor(sf::Color(r, g, b, a));
 }
 
 } // extern "C"

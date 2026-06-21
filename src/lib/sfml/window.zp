@@ -2,6 +2,7 @@ import "ffi.zp" as ffi;
 import "events.zp" { Event };
 import "graphics/rectangle.zp" { Rectangle };
 import "graphics/circle.zp" { Circle };
+import "graphics/sprite.zp" { Sprite };
 
 pub class Window {
     priv handle: *Void;
@@ -86,6 +87,14 @@ pub class Window {
         if self.handle != null {
             unsafe {
                 ffi.sw_window_draw_circle(self.handle, circ.nativeHandle());
+            }
+        }
+    }
+
+    pub fun drawSprite(sprite: Sprite) {
+        if self.handle != null {
+            unsafe {
+                ffi.sw_window_draw_sprite(self.handle, sprite.nativeHandle());
             }
         }
     }
